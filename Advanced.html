@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Listing are Complete</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="lab6advancedeffects.css">
+</head>
+<body>
+<script>
+    $(function(){
+        $("body").append("<input type='text' id='input'>" + "<br><br>");
+        $("body").append("<button id='thebutton'>Stick it in</button>");
+        $("body").append("<button id='remove'>Put it in a table");
+        $("body").append("<ul id='listing'></ul>");
+        $("body").append("<table id='tables'><tr><th scope='col'>Item</th><th scope='col'>Date</th></tr></table>");
+
+        // This is where the button puts it into a list
+        $("#thebutton").click(function(){
+          var stick = $("#input").val();
+          if (stick != "") {
+              $("#listing").append("<li class='is_not_done'>" + stick + "</li>");
+              $("#input").val("");
+          }
+        });
+
+        // Effects for the remove button
+        $("#remove").click(function() {
+            var stuff = $(".done");
+            for (var x = 0; x < stuff.length; x++) {
+                var rawDate = $(stuff[x]).data('date');
+                var doneDate = ("0" + (rawDate.getMonth()+1)).slice(-2) + "/" + ("0" + rawDate.getDate()).slice(-2) + "/" + rawDate.getFullYear();
+//                $("#tables").append("<tr><td>" + stuff[x].innerHTML + "</td><td>" + doneDate + "</td></tr>");
+                var text = stuff[x].innerHTML;
+                $(".done").fadeOut('slow');
+
+                $("#tables").append("<tr><td>" + text + "</td><td>" + doneDate + "</td></tr>");
+            }
+            $(".done").remove();
+        });
+
+        // effects for the click functions and the CSS style
+        $("#listing").click(function(event) {
+            var whatEvent = event.target;
+            $(whatEvent).toggleClass("done");
+            if (!$(whatEvent).data("date")) {
+                $(whatEvent).data({"date": new Date()});
+            }
+        });
+    });
+
+</script>
+
+</body>
+</html>
